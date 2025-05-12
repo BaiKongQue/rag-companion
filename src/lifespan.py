@@ -40,5 +40,6 @@ def build_lifespan(settings: Settings):
                 app.state.cache = cache
 
             yield
+            await stack.aclose()
 
     return app_lifespan
