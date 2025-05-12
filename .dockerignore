@@ -1,0 +1,11 @@
+.dockerignore
+Dockerfile
+**/__pycache__/
+**/__init__.py
+**/wav_files/
+.git/
+.gitignore
+.env
+.pytest_cache
+export_env.sh
+README.md
