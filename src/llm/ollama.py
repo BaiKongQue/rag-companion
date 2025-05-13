@@ -2,7 +2,7 @@
 
 from contextlib import asynccontextmanager
 from ollama import AsyncClient
-from pdf_rag_engine.config.settings import Settings
+from src.config.settings import settings
 
 class OllamaLLMClient:
     def __init__(self, host: str, model: str):
@@ -31,7 +31,7 @@ class OllamaEmbedder:
 
 
 @asynccontextmanager
-async def get_ollama_llm(settings: Settings):
+async def get_ollama_llm():
     client = OllamaLLMClient(settings.llm_host, settings.llm_model)
     try:
         yield client
@@ -40,7 +40,7 @@ async def get_ollama_llm(settings: Settings):
 
 
 @asynccontextmanager
-async def get_ollama_embedder(settings: Settings):
+async def get_ollama_embedder():
     embedder = OllamaEmbedder(settings.embedding_host, settings.embedding_model)
     try:
         yield embedder
