@@ -1,5 +1,3 @@
-# src/pdf_rag_engine/llm/ollama.py
-
 from contextlib import asynccontextmanager
 from ollama import AsyncClient
 from src.config.settings import settings
@@ -46,3 +44,33 @@ async def get_ollama_embedder():
         yield embedder
     finally:
         await embedder.close()
+
+
+
+# from contextlib import asynccontextmanager
+# from ollama import AsyncClient
+# from src.config.settings import settings
+
+# @asynccontextmanager
+# async def get_ollama_llm(host: str = settings.llm_host, model: str = settings.llm_model):
+#     client = AsyncClient(host=host)
+#     async def chat(messages: list[dict]):
+#         response = await client.chat(model=model, messages=messages)
+#         return response['message']['content']
+#     try:
+#         yield chat
+#     finally:
+#         await client.aclose()
+
+
+
+# @asynccontextmanager
+# async def get_ollama_embedder(host: str = settings.llm_host, model: str = settings.llm_model):
+#     client = AsyncClient(host=host)
+#     async def embed(texts: list[str]) -> list[list[float]]:
+#         response = await client.embeddings(model=model, prompt=texts)
+#         return response['embeddings']
+#     try:
+#         yield embed
+#     finally:
+#         await client.aclose()
