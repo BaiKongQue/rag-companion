@@ -2,6 +2,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict, model_validator
 import os
 from typing_extensions import Self
 from typing import Literal
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -17,7 +20,7 @@ class Settings(BaseSettings):
     address: str = "0.0.0.0"
     port: int = 9000
     
-    redis_url: str = "redis://localhost:6379"
+    redis_url: str = "redis://localhost:6379/0"
 
     llm: Literal['chatgpt', 'ollama'] = "chatgpt"
     llm_host: str = "localhost"
@@ -29,6 +32,7 @@ class Settings(BaseSettings):
     embedding_model: str = "text-embedding-3-small"
     embedding_api_key: str = ""
     
+    chroma_save_path: str = "./chroma_db/data"
     chroma_collection: str = "rag-companion"
 
     @model_validator(mode='after')

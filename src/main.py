@@ -3,9 +3,9 @@ import os
 import logging
 from fastapi import FastAPI
 from fastapi import FastAPI
-from src.config.settings import settings
-from src.lifespan import build_lifespan
-from src.api.routes import router as api_router
+from datetime import datetime
+from src.api.api import sub_app_api
+from src.lifespan import app_lifespan
 
 # Set up logging configuration
 logging.basicConfig(
@@ -18,7 +18,19 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="RAG Companion",
     version="0.1.0",
-    lifespan=build_lifespan(settings)
+    lifespan=app_lifespan
 )
 
-app.include_router(api_router, prefix="/api")
+@app.get("/health")
+async def health():
+    """Health endpoint for Kubernetes probes"""
+    # if bot.is_healthy:
+    #     return {"status": "healthy"}
+    # else:
+    #     raise HTTPException(status_code=500, detail="Status is unhealthy")
+    return {"status": "healthy", "time": datetime.now().isoformat()}
+
+
+# app.include_router(api_router, prefix="/api")
+
+app.mount("/lab", sub_app_api)

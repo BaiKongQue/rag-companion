@@ -3,8 +3,12 @@
 from contextlib import asynccontextmanager
 from openai import AsyncOpenAI
 from src.config.settings import settings
-from src.llm.base import BaseLLMClient
+from src.llm import BaseLLMClient, BaseEmbedderClient, LLMClient, EmbedderClient
+import logging
 
+logger = logging.getLogger(__name__)
+
+@LLMClient('chatgpt')
 class ChatGPTClient(BaseLLMClient):
     def __init__(self):
         self.client = AsyncOpenAI(api_key=settings.api_key)
@@ -16,6 +20,15 @@ class ChatGPTClient(BaseLLMClient):
         )
         return response.choices[0].message.content
 
+    async def close(self):
+        await self.client.aiterator.aclose()  # In case streaming was used
+        # If not using streaming, this is optional
+
+@EmbedderClient('chatgpt')
+class ChatGPTEmbedder(BaseEmbedderClient):
+    def __init__(self):
+        self.client = AsyncOpenAI(api_key=settings.api_key)
+
     async def embed(self, texts: list[str]) -> list[list[float]]:
         response = await self.client.embeddings.create(
             model=settings.embedding_model,
@@ -24,13 +37,4 @@ class ChatGPTClient(BaseLLMClient):
         return [r.embedding for r in response.data]
 
     async def close(self):
-        await self.client.aiterator.aclose()  # In case streaming was used
-        # If not using streaming, this is optional
-
-@asynccontextmanager
-async def get_chatgpt_client():
-    client = ChatGPTClient()
-    try:
-        yield client
-    finally:
-        await client.close()
+        await self.client.aiterator.aclose()
