@@ -45,15 +45,15 @@ class BaseEmbedderClient(ABC):
         """
         pass
 
-llm_client_map: dict[str, BaseLLMClient] = {}
-embedder_client_map: dict[str, BaseEmbedderClient] = {}
+__llm_client_map: dict[str, BaseLLMClient] = {}
+__embedder_client_map: dict[str, BaseEmbedderClient] = {}
 
 def LLMClient():
     """
     Decorator to register a class as a LLM client.
     """
     def decorator(cls, name):
-        llm_client_map[name.lower()] = cls
+        __llm_client_map[name.lower()] = cls
         return cls
     return decorator
 
@@ -62,7 +62,7 @@ def EmbedderClient():
     Decorator to register a class as an embedder client.
     """
     def decorator(cls, name):
-        embedder_client_map[name.lower()] = cls
+        __embedder_client_map[name.lower()] = cls
         return cls
     return decorator
 
