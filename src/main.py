@@ -4,8 +4,9 @@ import logging
 from fastapi import FastAPI
 from fastapi import FastAPI
 from datetime import datetime
-from src.api.api import sub_app_api
-from src.lifespan import app_lifespan
+from api.api import sub_app_api
+from lifespan import app_lifespan
+import uvicorn
 
 # Set up logging configuration
 logging.basicConfig(
@@ -34,3 +35,12 @@ async def health():
 # app.include_router(api_router, prefix="/api")
 
 app.mount("/lab", sub_app_api)
+
+async def run():
+    try:
+        config = uvicorn.Config(app, host="0.0.0.0", port=8010, log_level="info")
+        server = uvicorn.Server(config)
+        server.run()
+    except Exception as e:
+        logger.error(f"FastApi encountered an error: {e}")
+        exit(-1)

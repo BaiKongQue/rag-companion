@@ -1,4 +1,5 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict, model_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import model_validator
 import os
 from typing_extensions import Self
 from typing import Literal
