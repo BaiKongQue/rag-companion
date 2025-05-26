@@ -12,7 +12,7 @@ class Settings(BaseSettings):
         env_file='.env',
         env_file_encoding='utf-8',
         env_prefix='RAG_COMPANION_',
-        cli_parse_args=True
+        # cli_parse_args=True
     )
 
     production: bool = False

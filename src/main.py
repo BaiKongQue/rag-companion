@@ -4,8 +4,8 @@ import logging
 from fastapi import FastAPI
 from fastapi import FastAPI
 from datetime import datetime
-from api.api import sub_app_api
-from lifespan import app_lifespan
+from src.api.routes import sub_app_api
+from src.lifespan import app_lifespan
 import uvicorn
 
 # Set up logging configuration
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="RAG Companion",
     version="0.1.0",
-    lifespan=app_lifespan
+    # lifespan=app_lifespan
 )
 
 @app.get("/health")
@@ -43,4 +43,15 @@ async def run():
         server.run()
     except Exception as e:
         logger.error(f"FastApi encountered an error: {e}")
+        exit(-1)
+
+if __name__ == "__main__":
+    logger.info("Starting RAG Companion server...")
+    try:
+        import asyncio
+        asyncio.run(run())
+    except KeyboardInterrupt:
+        logger.info("Server stopped by user.")
+    except Exception as e:
+        logger.error(f"An error occurred while running the server: {e}")
         exit(-1)

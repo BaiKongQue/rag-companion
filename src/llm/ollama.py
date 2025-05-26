@@ -1,8 +1,8 @@
 from contextlib import asynccontextmanager
 from ollama import AsyncClient
-from src.config.settings import settings
-from src.llm import LLMClient, EmbedderClient, BaseLLMClient, BaseEmbedderClient
 import logging
+from src.config.settings import settings
+from src.llm.base import LLMClient, EmbedderClient, BaseLLMClient, BaseEmbedderClient
 
 logger = logging.getLogger(__name__)
 

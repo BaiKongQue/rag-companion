@@ -1,5 +1,4 @@
 from typing import List
-from chromadb import Client
 from src.lifespan import embedding_model, chromadb_client
 from uuid import uuid4
 import logging

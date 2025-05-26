@@ -2,8 +2,8 @@
 
 from contextlib import asynccontextmanager
 from openai import AsyncOpenAI
-from src.config.settings import settings
-from src.llm import BaseLLMClient, BaseEmbedderClient, LLMClient, EmbedderClient
+from config.settings import settings
+from src.llm.base import BaseLLMClient, BaseEmbedderClient, LLMClient, EmbedderClient
 import logging
 
 logger = logging.getLogger(__name__)
