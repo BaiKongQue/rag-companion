@@ -6,7 +6,7 @@ from src.chromadb.store import store_embeddings
 logger = logging.getLogger(__name__)
 sub_app_api = FastAPI()
 
-@sub_app_api.get("/upload")
+@sub_app_api.post("/upload")
 async def upload(file: UploadFile = File(...)):
     """Upload endpoint"""
     if not file.filename.endswith((".pdf", ".txt")):

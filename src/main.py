@@ -34,7 +34,7 @@ async def health():
 
 # app.include_router(api_router, prefix="/api")
 
-app.mount("/lab", sub_app_api)
+app.mount("/api", sub_app_api)
 
 async def run():
     try:
