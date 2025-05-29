@@ -2,25 +2,30 @@ import logging
 from fastapi import FastAPI, HTTPException, File, UploadFile
 from src.services.document_processor import process_document
 from src.chromadb.store import store_embeddings
+from typing import Annotated
 
 logger = logging.getLogger(__name__)
 sub_app_api = FastAPI()
 
 @sub_app_api.post("/upload")
-async def upload(file: UploadFile = File(...)):
+async def upload(file: UploadFile):
     """Upload endpoint"""
     if not file.filename.endswith((".pdf", ".txt")):
         raise HTTPException(status_code=400, detail="Only PDF or TXT files are supported.")
 
     try:
+        logger.debug("HERER")
         # Step 1: Extract and split text
         chunks = await process_document(file)
+        logger.debug("HERER2")
 
         # Step 2: Embed and store in ChromaDB
         await store_embeddings(file.filename, chunks)
+        logger.debug("HERER3")
 
         return {"status": "success", "chunks": len(chunks)}
     except Exception as e:
+        logger.error(f"Error processing file {file.filename}: {e}")
         raise HTTPException(status_code=500, detail=str(e))
     
 @sub_app_api.get("/chat")

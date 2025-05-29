@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="RAG Companion",
     version="0.1.0",
-    # lifespan=app_lifespan
+    lifespan=app_lifespan
 )
 
 @app.get("/health")
