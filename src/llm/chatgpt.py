@@ -1,17 +1,13 @@
-# src/pdf_rag_engine/llm/chatgpt.py
-
-from contextlib import asynccontextmanager
 from openai import AsyncOpenAI
-from config.settings import settings
-from src.llm.base import BaseLLMClient, BaseEmbedderClient, LLMClient, EmbedderClient
+from src.config.settings import settings
+from src.llm.base import BaseLLMClient, BaseEmbedderClient
 import logging
 
 logger = logging.getLogger(__name__)
 
-@LLMClient('chatgpt')
 class ChatGPTClient(BaseLLMClient):
     def __init__(self):
-        self.client = AsyncOpenAI(api_key=settings.api_key)
+        self.client = AsyncOpenAI(api_key=settings.llm_api_key)
 
     async def chat(self, messages: list[dict]) -> str:
         response = await self.client.chat.completions.create(
@@ -21,13 +17,12 @@ class ChatGPTClient(BaseLLMClient):
         return response.choices[0].message.content
 
     async def close(self):
-        await self.client.aiterator.aclose()  # In case streaming was used
-        # If not using streaming, this is optional
+        pass
+        # await self.client.aiterator.aclose()  # In case streaming was used
 
-@EmbedderClient('chatgpt')
 class ChatGPTEmbedder(BaseEmbedderClient):
     def __init__(self):
-        self.client = AsyncOpenAI(api_key=settings.api_key)
+        self.client = AsyncOpenAI(api_key=settings.embedding_api_key)
 
     async def embed(self, texts: list[str]) -> list[list[float]]:
         response = await self.client.embeddings.create(
@@ -37,4 +32,5 @@ class ChatGPTEmbedder(BaseEmbedderClient):
         return [r.embedding for r in response.data]
 
     async def close(self):
-        await self.client.aiterator.aclose()
+        pass
+        # await self.client.aiterator.aclose()

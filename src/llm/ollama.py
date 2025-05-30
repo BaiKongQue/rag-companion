@@ -1,12 +1,10 @@
-from contextlib import asynccontextmanager
-from ollama import AsyncClient
+# from ollama import AsyncClient
 import logging
 from src.config.settings import settings
-from src.llm.base import LLMClient, EmbedderClient, BaseLLMClient, BaseEmbedderClient
+from src.llm.base import BaseLLMClient, BaseEmbedderClient
 
 logger = logging.getLogger(__name__)
 
-@LLMClient('ollama')
 class OllamaLLMClient(BaseLLMClient):
     def __init__(self, host: str, model: str):
         self.client = AsyncClient(host=host)
@@ -19,7 +17,6 @@ class OllamaLLMClient(BaseLLMClient):
     async def close(self):
         await self.client.aclose()
 
-@EmbedderClient('ollama')
 class OllamaEmbedder(BaseEmbedderClient):
     def __init__(self, host: str, model: str):
         self.client = AsyncClient(host=host)

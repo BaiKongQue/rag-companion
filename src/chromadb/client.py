@@ -1,4 +1,3 @@
-from contextlib import asynccontextmanager
 from src.config.settings import settings
 import chromadb
 import logging
@@ -17,17 +16,8 @@ class ChromaDBClient:
 
         logger.info(f"ChromaDB client initialized with collection '{settings.chroma_collection}' at '{settings.chroma_save_path}'")
 
+    def test():
+        logger.info("ChromaDB client Test method called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
     async def close(self):
-        await self.client.close()
-
-@asynccontextmanager
-async def init_chromadb():
-    """Initialize and yield a ChromaDB client."""
-    client = ChromaDBClient()
-
-    if not client.collection:
-        raise ValueError("Failed to initialize ChromaDB collection.")
-    try:
-        yield client
-    finally:
-        await client.close()
+        logger.info("Closing ChromaDB client...")

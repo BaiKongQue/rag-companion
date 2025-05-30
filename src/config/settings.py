@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     embedding_model: str = "text-embedding-3-small"
     embedding_api_key: str = ""
     
-    chroma_save_path: str = "./chroma_db/data"
+    chroma_save_path: str = "src/chromadb/data"
     chroma_collection: str = "rag-companion"
 
     @model_validator(mode='after')

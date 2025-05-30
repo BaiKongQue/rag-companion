@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException, File, UploadFile
 from src.services.document_processor import process_document
 from src.chromadb.store import store_embeddings
 from typing import Annotated
+from src.chromadb import chromadb_client
 
 logger = logging.getLogger(__name__)
 sub_app_api = FastAPI()
