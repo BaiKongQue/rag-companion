@@ -12,7 +12,7 @@ def split_text(text: str, max_chunk_size: int = 500) -> List[str]:
 async def process_document(file: UploadFile) -> List[str]:
     content = await file.read()
 
-    if file.filename.endswith(".pdf"):
+    if file.filename and file.filename.endswith(".pdf"):
         reader = PdfReader(io.BytesIO(content))
         text = "".join(page.extract_text() or "" for page in reader.pages)
     else:  # .txt

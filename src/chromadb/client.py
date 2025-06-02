@@ -16,8 +16,5 @@ class ChromaDBClient:
 
         logger.info(f"ChromaDB client initialized with collection '{settings.chroma_collection}' at '{settings.chroma_save_path}'")
 
-    def test():
-        logger.info("ChromaDB client Test method called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-
     async def close(self):
         logger.info("Closing ChromaDB client...")

@@ -15,7 +15,7 @@ class Settings(BaseSettings):
         # cli_parse_args=True
     )
 
-    production: bool = False
+    production: bool = True
     logging_level: str = "INFO"
 
     address: str = "0.0.0.0"
@@ -23,25 +23,21 @@ class Settings(BaseSettings):
     
     redis_url: str = "redis://localhost:6379/0"
 
-    llm: Literal['chatgpt', 'ollama'] = "chatgpt"
-    llm_host: str = "localhost"
-    llm_model: str = "o4-mini"
-    llm_api_key: str = ""
-
-    embedding: str = "chatgpt"
-    embedding_host: str = "localhost"
-    embedding_model: str = "text-embedding-3-small"
-    embedding_api_key: str = ""
+    model: str = "chatgpt"
+    model_host: str = "localhost"
+    model_llm: str = "o4-mini"
+    model_embedding: str = "text-embedding-3-small"
+    model_api_key: str = ""
     
     chroma_save_path: str = "src/chromadb/data"
     chroma_collection: str = "rag-companion"
 
-    @model_validator(mode='after')
-    def validate_llm(self) -> Self:
-        if self.llm_model == "chatgpt":
-            if not self.llm_api_key:
-                raise ValueError("RAG_COMPANION_LLM_API_KEY must be set when RAG_COMPANION_LLM_MODEL is chatgpt")
-        return self
+    # @model_validator(mode='after')
+    # def validate_llm(self) -> Self:
+    #     if self.model == "chatgpt":
+    #         if not self.model_api_key:
+    #             raise ValueError("RAG_COMPANION_LLM_API_KEY must be set when RAG_COMPANION_LLM_MODEL is chatgpt")
+    #     return self
 
     @property
     def redis_host(self):
@@ -51,8 +47,4 @@ class Settings(BaseSettings):
     def redis_port(self):
         return int(self.redis_url.split("//")[1].split(":")[1])
 
-def resolve_env_file() -> str:
-    prod = os.environ.get("PRODUCTION", "").lower()
-    return ".env" if prod == "true" else "dev.env"
-
-settings = Settings(_env_file=resolve_env_file())
+settings: Settings = Settings()
